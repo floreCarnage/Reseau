@@ -25,6 +25,7 @@ public class ServeurTCP {
             while (true) {
                 //On attend une demande de connexion d'un client
                 Socket clientsocket = maSocket.accept();
+                System.out.println("J'ai reçu une connexion !");
                 try {
                     PrintWriter sortie = new PrintWriter(clientsocket.getOutputStream(), true);
                     BufferedReader entree = new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));

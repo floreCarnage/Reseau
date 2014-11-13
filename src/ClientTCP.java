@@ -1,48 +1,36 @@
 import java.io.*; 
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ClientTCP {
 
 	private Socket maSocket;
 	private PrintStream os;
-	private DataInputStream is;
-	//Cosntructeur de la classe
+	private BufferedReader is;
+	//Constructeur de la classe
+
+    public static void main(String[] args) {
+        new ClientTCP();
+    }
+
 	public ClientTCP() {
-		Socket maSocket = null;
-		//Outstream déclaré avant le instream pour éviter les bugs
-		 os = null;
-		 is = null;
-		
-	}
-	public void setSocket(Socket socket) {
-		maSocket = socket;
-	}
-	
-	public void setOS(PrintStream printStream) {
-		os = printStream;
-	}
-	public void setIS(DataInputStream dataInputStream) {
-		is = dataInputStream;
-	}
-	public Socket getSocket() {
-		return maSocket;
-	}
-
-	public DataInputStream getIs() {
-		return is;
-	}
-	public PrintStream getOs() {
-		return os;
-	}
-
-	public void connexionClient(ServeurTCP serveur) {
-		try {
-			maSocket = serveur.getMaSocket().accept();
-			is = serveur.getIs();
-			os = serveur.getOs();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
+        try {
+            maSocket = new Socket("localhost", 4444);
+            try {
+                os = new PrintStream(maSocket.getOutputStream());
+                String monTexte;
+                is = new BufferedReader(new InputStreamReader(System.in));
+                while ((monTexte = is.readLine()) != null) {
+                    os.println(monTexte);
+                }
+            }
+            catch (IOException e) {
+                System.err.println(e);
+            }
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+    }
 }
