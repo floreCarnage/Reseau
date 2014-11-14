@@ -6,7 +6,7 @@ import java.util.List;
 public class ClientTCP {
 
 	private Socket maSocket;
-	private PrintStream os;
+	private DataOutputStream os;
 	private BufferedReader is;
 	//Constructeur de la classe
 
@@ -14,15 +14,16 @@ public class ClientTCP {
         new ClientTCP();
     }
 
-	public ClientTCP() {
+	@SuppressWarnings("deprecation")
+    public ClientTCP() {
         try {
             maSocket = new Socket("localhost", 4444);
             try {
-                os = new PrintStream(maSocket.getOutputStream());
+                os = new DataOutputStream(maSocket.getOutputStream());
                 String monTexte;
-                is = new BufferedReader(new InputStreamReader(System.in));
+                is = new BufferedReader(new InputStreamReader(maSocket.getInputStream()));
                 while ((monTexte = is.readLine()) != null) {
-                    os.println(monTexte);
+                    os.writeBytes(monTexte);
                 }
             }
             catch (IOException e) {

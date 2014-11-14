@@ -18,6 +18,7 @@ public class ServeurTCP {
         new ServeurTCP();
     }
 
+    @SuppressWarnings("deprecation")
     public ServeurTCP() {
         try {
             maSocket = new ServerSocket(4444);
@@ -27,7 +28,7 @@ public class ServeurTCP {
                 Socket clientsocket = maSocket.accept();
                 System.out.println("J'ai reçu une connexion !");
                 try {
-                    PrintWriter sortie = new PrintWriter(clientsocket.getOutputStream(), true);
+                    PrintStream sortie = new PrintStream(clientsocket.getOutputStream());
                     BufferedReader entree = new BufferedReader(new InputStreamReader(clientsocket.getInputStream()));
                     while (true) {
                         String in = entree.readLine();
