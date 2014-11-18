@@ -32,5 +32,14 @@ public class ServeurTCP {
         } catch (IOException exception) {
             System.out.println("Erreur: " + exception);
         }
+        fermeture(maSocket);
+    }
+    
+    private void fermeture(ServerSocket socket) {
+        try {
+            socket.close();
+        } catch (Exception e) {
+            System.err.println("Erreur ce port disparait à jamais");
+        }
     }
 }
