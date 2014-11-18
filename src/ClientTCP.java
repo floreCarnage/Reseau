@@ -19,7 +19,7 @@ public class ClientTCP {
     public ClientTCP() {
         try {
             //Connexion à notre serveur, en local
-            maSocket = new Socket("10.212.110.223", 4444);
+            maSocket = new Socket("localHost", 4444);
 
             System.out.println("Je suis connecté en local au serveur, maintenant je vais ouvrir les output et input");
             //Ouverture d'un output pour le client sur la socket de communication
