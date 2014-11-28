@@ -1,9 +1,11 @@
+package serveur;
+
 import java.io.*;
 import java.net.*;
 import java.util.Date;
 
 /**
- * La classe ServeurTCP, qui implémente le code du serveur TCP. La sérialisation
+ * La classe serveur.ServeurTCP, qui implémente le code du serveur TCP. La sérialisation
  * se fait en chaîne Un main qui execute le serveur, dont le main contient juste
  * l'attente d'une connexion, et quand il reçoit des messages, il répond.
  * 

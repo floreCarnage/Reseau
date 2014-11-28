@@ -1,3 +1,7 @@
+package donnees;
+
+import donnees.Dpt;
+
 import java.util.List;
 
 /**
@@ -13,7 +17,7 @@ public class Personne {
 
     public Personne(String sonNom, String sonPrenom, String sonApogee, String saQualite, String sonDpt) throws PersonneInvalideException {
         if (sonNom.isEmpty() || sonPrenom.isEmpty() || sonApogee.isEmpty() || saQualite.isEmpty() || sonDpt.isEmpty())
-            throw new PersonneInvalideException("Personne créée invalide");
+            throw new PersonneInvalideException("donnees.Personne créée invalide");
         nom = sonNom;
         prenom = sonPrenom;
         apogee = sonApogee;

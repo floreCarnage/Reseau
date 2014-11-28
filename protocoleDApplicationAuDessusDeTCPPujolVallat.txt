@@ -85,7 +85,7 @@ Dery/Anne-Marie/Prof:am,amd;Litovsky/Igor/Prof:lito;#\n
 			- String Nom		/* Nom à ajouter */
 			- String Prenom		/* Prénom à ajouter */
 			- String Apogee		/* Numéro apogée de la personne à ajouter */
-			- String Qualite	/* ETU suvi du numéro d'année pour un étudiant. 
+			- String donnees.Qualite	/* ETU suvi du numéro d'année pour un étudiant.
 						   PROF pour un professeur. EX : ETU4 ou PROF */
 			- String Departement	/* SI, MAM, ELEC, GE, BAT, GB ou PEIP */
 
