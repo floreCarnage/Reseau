@@ -2,9 +2,12 @@ package client;
 
 import java.io.*;
 import java.net.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
+import protocole.NomRequete;
 import protocole.Requete;
 
 public class ClientTCP {
@@ -13,8 +16,7 @@ public class ClientTCP {
     private PrintWriter out;
     private BufferedReader in;
     private Scanner mySc;
-    private Gson requeteEnvoi;
-    private Requete r;
+    private Gson gson = new Gson();
 
     public static void main(String[] args) {
         new ClientTCP();
@@ -26,14 +28,14 @@ public class ClientTCP {
             //Connexion à notre serveur, en local
             maSocket = new Socket("localHost", 4444);
 
-            System.out.println("Je suis connecté en local au serveur, maintenant je vais ouvrir les output et input");
+            System.err.println("Connexion au serveur réussie");
             //Ouverture d'un output pour le client sur la socket de communication
             out = new PrintWriter(maSocket.getOutputStream(), true);
             //Ouvrir un reader pour le client sur la socket de communication
             in = new BufferedReader(new InputStreamReader(maSocket.getInputStream()));
             //On utiliser ce buffer pour récupérer ce qu'on dit sur le terminal (System.in)
             mySc = new Scanner(System.in);
-            System.out.println("In et out ouverts");
+            System.err.println("Flux de données ouverts");
             envoiRequetes();
         }
         catch (IOException e) {
@@ -43,32 +45,80 @@ public class ClientTCP {
 
     //Méthode pour envoyer des messages au serveur
     public void envoiRequetes() {
-        requeteEnvoi = new Gson();
-        String userInput;
-        String cc = "coucou";
+        String requeteEnvoyee = "";
+        String userInput = "";
+        Requete r;
+        List<String> params;
         try {
-            System.out.println("Que voulez-vous faire ?\n" +
-                    ">>>> 1 Ajouter une personne\n" +
-                    ">>>> 2 Consulter les surnoms d'une personne\n" +
-                    ">>");
+
             while (true) {
+                System.out.println("Que voulez-vous faire ?\n" +
+                        ">>>> 1 Ajouter une personne\n" +
+                        ">>>> 2 Consulter les surnoms d'une personne\n" +
+                        ">>");
                 userInput = mySc.nextLine();
                 if (userInput.equals("1")) {
-                    out.println(r.requeteAjout());
+                    params = ajoutNom();
+                    r = new Requete(NomRequete.AJOUTERNOM, params);
+                    requeteEnvoyee = gson.toJson(r);
                 }
                 else if (userInput.equals("2")) {
-                    out.println(r.requeteAjout());
-
+                    params = listerSurnoms();
+                    r = new Requete(NomRequete.LISTERSURNOM, params);
+                    requeteEnvoyee = gson.toJson(r);
                 }
+                //Envoi effectif de la requête après sa construction :
+                out.println(requeteEnvoyee);
 
-                //On envoie cette ligne immédiatement au serveur, avec le canal out de la socket
-                //Ici, on lit l'entrée qui vient de la socket, donc on reçoit quelque chose ssi le serveur a renvoyé des informations
-                System.out.println("echo: " + in.readLine());
+                //Lecture de la réponse
+
+                afficherReponse(in.readLine());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
+    private void afficherReponse(String s) {
+        List<String> reponse = gson.fromJson(s, List.class);
+        System.out.println("Résultat : \n");
+        for (int i = 0; i<reponse.size();i++) {
+            System.out.println(reponse.get(i));
+        }
+
+    }
+
+    private List<String> ajoutNom() {
+        List<String> params  = new ArrayList<String>();
+        System.out.println("Vous voulez ajouter une nouvelle personne à la base. ");
+        System.out.println("Nom ?\n" +
+                ">");
+        params.add(mySc.nextLine());
+        System.out.println("Prénom ?\n" +
+                ">");
+        params.add(mySc.nextLine());
+        System.out.println("N° Apogee ?\n" +
+                ">");
+        params.add(mySc.nextLine());
+        System.out.println("Qualité (ETU1, 2, 3, 4, 5 ou PROF) ?\n" +
+                ">");
+        params.add(mySc.nextLine());
+        System.out.println("Département (SI, MAM, ELEC, GE, BAT, GB ou PEIP) ?\n" +
+                ">");
+        params.add(mySc.nextLine());
+        return params;
+    }
+
+    private List<String> listerSurnoms() {
+        List<String> params  = new ArrayList<String>();
+        System.out.println("Vous voulez voir tous les surnoms d'une personne ");
+        System.out.println("Nom ?\n" +
+                ">");
+        params.add(mySc.nextLine());
+        System.out.println("N° Apogee ?\n" +
+                ">");
+        params.add(mySc.nextLine());
+        return params;
+    }
 
 }
