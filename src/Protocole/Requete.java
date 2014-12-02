@@ -1,4 +1,4 @@
-package serveur;
+package Protocole;
 
 import java.util.ArrayList;
 import java.util.HashMap;

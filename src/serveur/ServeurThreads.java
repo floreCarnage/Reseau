@@ -6,6 +6,9 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Inet4Address;
 import java.net.Socket;
+
+import Protocole.Requete;
+
 import com.google.gson.Gson;
 
 public class ServeurThreads implements Runnable{
