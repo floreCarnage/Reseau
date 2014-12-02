@@ -26,4 +26,8 @@ public class Donnees {
         }
         throw new PersonneInvalideException("La personne demandée n'existe pas !");
     }
+    
+    public List<Personne> getDonnees() {
+        return donnees;
+    }
 }

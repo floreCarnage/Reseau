@@ -33,7 +33,11 @@ public class ServeurThreads  extends ServeurTCP implements Runnable{
                 Gson gson = new Gson();
                 String in = entree.readLine();
                 Requete r = gson.fromJson(in, Requete.class);
-                r.executer(getDonnees());
+                try {
+                    r.executer(getDonnees());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 /*if (in == null) {
                     System.err.println("Le client "+adresse+" s'est déconnecté");
                     sortie.close();
