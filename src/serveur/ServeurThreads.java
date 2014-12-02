@@ -34,7 +34,7 @@ public class ServeurThreads  extends ServeurTCP implements Runnable{
                 String in = entree.readLine();
                 Requete r = gson.fromJson(in, Requete.class);
                 try {
-                    r.executer(getDonnees());
+                    sortie.println(r.executer(getDonnees()));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
