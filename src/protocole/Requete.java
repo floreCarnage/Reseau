@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import donnees.Donnees;
 
 
 public class Requete {
@@ -16,15 +17,15 @@ public class Requete {
         parametre = para;
     }
     
-    public void executer() {
+    public void executer(Donnees donnee) {
         switch (nomRequete) {
         case AJOUTERNOM : 
-            executerAjouterNom();
+            executerAjouterNom(donnee);
         }
     }
 
-    private void executerAjouterNom() {
-        
+    private void executerAjouterNom(Donnees donnee) {
+        if(donnee.)
     }
     
 

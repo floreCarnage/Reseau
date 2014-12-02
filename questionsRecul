@@ -1,5 +1,6 @@
  1. Quelles sont les informations minimales à connaitre ou à télécharger pour pouvoir implémenter et exécuter un client
  qui interroge le serveur écrit par un autre binôme qui s’exécute sur une machine distante ?
+
 On a besoin :
 - Du nom du serveur (adresse IP)
 - Du port de communication
@@ -10,38 +11,43 @@ On a besoin :
     - le flux de lecture / écriture
 - Le langage de programmation - la version de Java
 
+
+
 2. Quelles sont les instructions (parties de code) qui gèrent les connexions de plusieurs clients en parallèle ?
 (à implémenter si cela n’a pas été fait dans l’étape no 1)
+
 On peut gérer les connexions de plusieurs clients en parallèle grâce à l'utilisation de threads d'une part,
 et grâce à la synchornisation des données du serveur d'autre part, afin de préserver l'intégrité des données.
-Ici, si on file pas tout notre code, je te propose qu'on donne le morceau de code du serveur qui concerne ça & c'est tout
+(cf. serveurTCP.java et serveurThreads.java)
+
+ 
 
 3. Comment concevoir le serveur afin de pouvoir simplement réutiliser du code si on utilise UDP
 comme protocole de transport ? Implémenter la communication en UDP et écrire si nécessaire le fichier
 protocoleDApplicationAuDessusDeUDP.txt qui décrit les variantes sur le protocole d’application et la sérialisation.
 Facultatif : Pour tous ceux qui ont fait la sérialisation chaîne posez-vous la même question avec le protocole
 d'application pour une sérialisation Objet que vous avez reçu.
-Réutilisation simple du serveur avec le protocle UDP :
-Pour pouvoir réutiliser notre serveur en changeant seulement le protocole de transport, il faut complètement séparer le serveur du protocole de transport :
-En fonction du message que le serveur reçoit (demande de communication ou datagramme(c'est comme ça qu'on dit pour les paquets udp non ?)),
-la classe serveur peut instancier un objet ServeurTCP ou bien ServeurUDP.
-De la même manière, en fonction du type de données que le serveur reçoit (une chaîne de caractères ou bien un objet),
-le serveur peut appeler différentes méthodes de désérialisation, puis de sérialisation pour envoyer son éventuelle réponse.
 
-Afin d'éviter les déclarations conditionnelles en cascade, on peut utiliser un factory pattern,
-qui créerait les instances des différents serveurs de manière statique au chargement du programme, et la bonne instance
-serait appelée lorsqu'elle est nécessaire grâce à la recherche dans une structure de stockage de ces instances.
+Pour faire une réutilisation simple de notre en code avec le protocole UDP, il est possible de changer seulement le type de socket utilisé et de passer à une datagramSocket. Le reste de notre code resterait inchangé, cependant on perdrait alors la vérification des données du protocole TCP. On pourrait alors remedier à cela en faisait un comptage ou une numérotation de paquet et en renvoyant le paquet si nécessaire.
+
+
 
 4. Quels sont les principaux avantages et/ou inconvénients d'une communication UDP pour ce type de service ?
-Pour ce type de service, la communication est beaucoup plus légère : la communication serait donc plus rapide,
-pour ce petit service qui ne nécessite pas à priori beaucoup de moyens.
-Egalement, la communication UDP facilite le traitement des demandes de plusieurs clients à la fois.
+
+La communication UDP est plus rapide car elle s'affranchie de la vérification des données reçues, en contre partie on perd la fiabilité des données
+Donc il est possible que la requête d'un client ne soit jamais traitée ou alors soit éronnée. Et à l'inverse il est possible que le client ne reçoive jamais de réponse de la part du serveur ne sachant alors pas ce qu'est advenu sa requête.
 Cependant, sans l'assurance que les paquets sont bien reçus, lorsqu'un client fait une demande,
 il est possible qu'il ne reçoive jamais de réponse, sans savoir si sa requête n'a pas pu être satisfaite ou bien si elle n'a pas été reçue.
-Les demandes des clients peuvent arriver dans n'importe quel ordre : cela signifie qu'on ne peut pas considérer un usager comme prioritaire,
-même si sa demande a été passée avant un autre.
 
-D'autres à trouver !
+Pour notre serveur de surnom, l'utilisation de UDP n'est pas adaptée car ce n'est pas la rapidité de communication qui importe mais l'intrégrité des données.
+
+Les demandes des clients peuvent arriver dans n'importe quel ordre : cela signifie qu'on ne peut pas considérer un usager comme prioritaire,
+même si sa demande a été passée avant un autre. (POUR ça d'après ce que je trouve sur internet les deuc protocoles traitent les requêtes dans l'ordre où ils les reçoivent.
+http://sardes.inrialpes.fr/~krakowia/Enseignement/M1/Flips/6-Sock-RPC-RAR-M1.pdf)
+
+
+
+
 
 5. Supposons que le serveur de surnoms soit un serveur très important pour l'école et que nous soyons amenés à mettre
 en place des serveurs esclaves qui soient des copies de ce serveur. Pour simplifier nous utiliserons une communication
@@ -50,4 +56,8 @@ Via cette communication le serveur principal informe régulièrement (délai de 
 
 a. Quel est le protocole d'application que vous pourriez mettre en place pour cette partie ?
 
+Il faudrait rajouter une vérification supplémentaire, le client final devra attendre la confirmation que le serveur maitre est confirmé au serveur esclave qu'il a bien pris sa modification en compte. Cela rajouterai un temps de latence supplémentaire, mais ça protégerait de toute modification concurrente.
+
 b. Comment faire évoluer le code du client et du serveur afin de mixer le service de Surnoms et celui de “réplicats” ?
+
+

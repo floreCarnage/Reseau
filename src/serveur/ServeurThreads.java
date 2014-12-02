@@ -11,7 +11,7 @@ import protocole.Requete;
 
 import com.google.gson.Gson;
 
-public class ServeurThreads implements Runnable{
+public class ServeurThreads  extends ServeurTCP implements Runnable{
 
     private Socket clientSocket;
     private Inet4Address adresse;
@@ -21,9 +21,6 @@ public class ServeurThreads implements Runnable{
         adresse = (Inet4Address) socket.getInetAddress();
     }
     
-    public void traitementRequete() {
-        
-    }
     @Override
     public void run() {
         try {
@@ -36,7 +33,7 @@ public class ServeurThreads implements Runnable{
                 Gson gson = new Gson();
                 String in = entree.readLine();
                 Requete r = gson.fromJson(in, Requete.class);
-                r.executer();
+                r.executer(getDonnees());
                 /*if (in == null) {
                     System.err.println("Le client "+adresse+" s'est déconnecté");
                     sortie.close();

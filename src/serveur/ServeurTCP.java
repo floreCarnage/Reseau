@@ -4,6 +4,8 @@ import java.io.*;
 import java.net.*;
 import java.util.Date;
 
+import donnees.Donnees;
+
 /**
  * La classe serveur.ServeurTCP, qui implémente le code du serveur TCP. La sérialisation
  * se fait en chaîne Un main qui execute le serveur, dont le main contient juste
@@ -15,6 +17,7 @@ import java.util.Date;
 public class ServeurTCP {
 
     private ServerSocket maSocket;
+    private Donnees donnee;
 
     public static void main(String[] args) {
         new ServeurTCP();
@@ -22,6 +25,7 @@ public class ServeurTCP {
     @SuppressWarnings("deprecation")
     public ServeurTCP() {
         try {
+            donnee = new Donnees();
             maSocket = new ServerSocket(4444);
             System.out.println("Le serveur est allume : " + new Date());
             while (true) {
@@ -42,5 +46,9 @@ public class ServeurTCP {
         } catch (Exception e) {
             System.err.println("Erreur ce port disparait à jamais");
         }
+    }
+    
+    public Donnees getDonnees() {
+        return donnee;
     }
 }
