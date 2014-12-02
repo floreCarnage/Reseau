@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Inet4Address;
 import java.net.Socket;
-
+import com.google.gson.Gson;
 
 public class ServeurThreads implements Runnable{
 
@@ -27,18 +27,17 @@ public class ServeurThreads implements Runnable{
                     new InputStreamReader(clientSocket.getInputStream()));
             System.err.println("Le client "+adresse+" s'est connecté");
             while (true) {
+                Gson gson = new Gson();
                 String in = entree.readLine();
-                if (in == null) {
+                Requete r = gson.fromJson(in, Requete.class);
+                r.executer();
+                /*if (in == null) {
                     System.err.println("Le client "+adresse+" s'est déconnecté");
                     sortie.close();
                     entree.close();
                     clientSocket.close();
                     break; 
-                }
-                   
-                // Pour le moment, on répète seulement ce qu'on a lu,
-                // donc :
-                sortie.println(in);
+                }*/
             }
             
         } catch (IOException exception) {

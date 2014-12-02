@@ -19,7 +19,6 @@ public class ServeurTCP {
     public static void main(String[] args) {
         new ServeurTCP();
     }
-
     @SuppressWarnings("deprecation")
     public ServeurTCP() {
         try {
