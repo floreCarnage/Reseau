@@ -7,7 +7,7 @@ import java.io.PrintStream;
 import java.net.Inet4Address;
 import java.net.Socket;
 
-import Protocole.Requete;
+import protocole.Requete;
 
 import com.google.gson.Gson;
 
@@ -21,6 +21,9 @@ public class ServeurThreads implements Runnable{
         adresse = (Inet4Address) socket.getInetAddress();
     }
     
+    public void traitementRequete() {
+        
+    }
     @Override
     public void run() {
         try {

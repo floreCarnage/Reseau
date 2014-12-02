@@ -1,4 +1,4 @@
-package Protocole;
+package protocole;
 
 public enum NomRequete {
     AJOUTERNOM, LISTERSURNOM;

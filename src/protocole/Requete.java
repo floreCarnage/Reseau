@@ -1,4 +1,4 @@
-package Protocole;
+package protocole;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,13 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Requete {
+public abstract class Requete {
     
     private NomRequete nomRequete;
     private List<String> parametre;
     
-    public Requete(NomRequete nr, List<String> para) {
-        nomRequete = nr;
-        parametre = para;
-    }
+
 }
