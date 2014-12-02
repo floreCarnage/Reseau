@@ -6,9 +6,9 @@
 
 /***** LISTE DES SERVICES *****/
 
-	-> Ajouter une nouvelle personne
+	-> Ajouter une nouvelle personne -> implémenté
 	-> Ajouter une nouvelle association nom/surnom (seulement si la personne existe déjà)
-	-> Afficher les surnoms d’une personne
+	-> Afficher les surnoms d’une personne -> implémenté
 	-> Lister toutes les entrées
 	-> Supprimer un surnom
 	-> Supprimer une personne et tout ses surnoms
@@ -23,25 +23,13 @@
 /***** SERIALISATION *****/
 
 	-> Les données sont sérialisées sous forme de chaînes de caractères.
+	Cette sérialisation se fait grâce à Json : le client construit un objet Requete, le sérialise puis l'envoie au serveur.
 
-
-/***** CARACTERES RESERVES *****/
-
-	-> # utilisé comme séparateur général
-	-> #\n utilisé comme marqueur de fin de requête ou de réponse
-	-> ; séparateur entre deux éléments quand la réponse retourne une liste
-	-> : séparateur entre l'identité et les surnoms quand la réponse retourne une liste
-	-> / séparateur entre les différentes données constituant l'identité quand la réponse retourne une liste
-	-> , séparateur entre deux surnoms quand la réponse retourne une liste
-
-Exemples : 
-
-Dery/Anne-Marie/Prof:am,amd;Litovsky/Igor/Prof:lito;#\n
-
-
+Une requête est composée d'un nom d'instruction, puis d'une liste de paramètres.
+Une réponse est constituée d'une liste de chaînes de caractères.
 /***** EXPRESSIONS RATIONNELLES DES MESSAGES SERIALISES *****/
 
-	-> _REQUETE_ : _INSTRUCTION_"#"(_PARAMETRE_"#")*"\n"
+	-> _REQUETE_ : _INSTRUCTION_ (_PARAMETRE_)*"\n"
 
 	-> _INSTRUCTION_ : "AJOUTER_PERSONNE" | "AJOUTER_SURNOM" | "SUPPRIMER_SURNOM" | "SUPPRIMER_PERSONNE" 
 			   | "LISTER_UN" | "LISTER_REQUETES" | "LISTER_TOUT" | "MODIFIER_NOM"
@@ -51,17 +39,6 @@ Dery/Anne-Marie/Prof:am,amd;Litovsky/Igor/Prof:lito;#\n
 	-> _PARAMETRE_ : chaîne_de_caractères /* cf détail des instructions ci-dessous pour plus de
  					         précisions concernant les paramètres */
 
-
-	-> _REPONSE_ : _STATUT_"#"(_LISTE_"#")*"\n"
-
-	-> _STATUT_ : "ERR-"_MESSAGE_ | "OOK-"_INSTRUCTION_	/* ERR pour une erreur suivi de son
- 							           message d'erreur.
-								   OOK pour une réponse positive suivie
-								   de l'instruction initiale */
-
-	-> _LISTE_ : _IDENTITE_":"(_SURNOM_ | _SURNOM_(","_SURNOM_)*)?";"
-
-	-> _IDENTITE : _NOM_"/"_PRENOM_"/"_APOGEE_"/"_GENRE_"/"_QUALITE_"/"_DEPARTEMENT_
 
 	-> _NOM_ : ([A-Za-z])([A-Za-z]|-| )+ 
 
@@ -97,17 +74,16 @@ Dery/Anne-Marie/Prof:am,amd;Litovsky/Igor/Prof:lito;#\n
 			Aucun couple Nom/Apogee identiques ne doit être déjà enregistré.
 
 		RETOURS :
-			- "OOK-AJOUTER_NOM#"_LIST_"#\n"
-		 	  On retourne les données concernant le nom ajouté.
+			Nom ajouté avec succès, ou bien :
 			Cas d'erreur : 
-			- "ERR-SYNTAXE_APOGEE##\n"
+			- "ERR-SYNTAXE_APOGEE\n"
 			  Le numéro apogée saisie ne respecte pas le format correct.
-			- "ERR-NOM_EXISTE_DEJA#"_LIST_"#\n"
+			- "ERR-NOM_EXISTE_DEJA "_LIST_"\n"
 			  Le nom/apogee existe déjà, on retourne le nom en question présent dans la
 			  base de donnée.
-			- "ERR-SYNTAXE_QUALITE##\n"
+			- "ERR-SYNTAXE_QUALITE\n"
 			  La qualité saisie ne respecte pas le format correct.
-			- "ERR-DEPARTEMENT_INCONNU##\n"
+			- "ERR-DEPARTEMENT_INCONNU\n"
 			  Le département saisi n'est pas correct.
 
 	
