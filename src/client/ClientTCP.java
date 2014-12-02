@@ -45,7 +45,7 @@ public class ClientTCP {
 
     //Méthode pour envoyer des messages au serveur
     public void envoiRequetes() {
-        String requeteEnvoyee = "";
+        String requeteEnvoyee = "erreur";
         String userInput = "";
         Requete r;
         List<String> params;
@@ -55,23 +55,24 @@ public class ClientTCP {
                 System.out.println("Que voulez-vous faire ?\n" +
                         ">>>> 1 Ajouter une personne\n" +
                         ">>>> 2 Consulter les surnoms d'une personne\n" +
-                        ">>");
+                        ">>>> 3 se déconnecter");
                 userInput = mySc.nextLine();
-                if (userInput.equals("1")) {
-                    params = ajoutNom();
-                    r = new Requete(NomRequete.AJOUTERNOM, params);
-                    requeteEnvoyee = gson.toJson(r);
-                }
-                else if (userInput.equals("2")) {
-                    params = listerSurnoms();
-                    r = new Requete(NomRequete.LISTERSURNOM, params);
-                    requeteEnvoyee = gson.toJson(r);
+                switch (userInput) {
+                    case "1" :
+                        params = ajoutNom();
+                        r = new Requete(NomRequete.AJOUTERNOM, params);
+                        requeteEnvoyee = gson.toJson(r);
+                        break;
+                    case "2" :
+                        params = listerSurnoms();
+                        r = new Requete(NomRequete.LISTERSURNOM, params);
+                        requeteEnvoyee = gson.toJson(r);
+                        break;
                 }
                 //Envoi effectif de la requête après sa construction :
                 out.println(requeteEnvoyee);
 
                 //Lecture de la réponse
-
                 afficherReponse(in.readLine());
             }
         } catch (IOException e) {
@@ -79,11 +80,15 @@ public class ClientTCP {
         }
     }
 
+
     private void afficherReponse(String s) {
+        try {
         List<String> reponse = gson.fromJson(s, List.class);
-        System.out.println("Résultat : \n");
-        for (int i = 0; i<reponse.size();i++) {
-            System.out.println(reponse.get(i));
+            for (int i = 0; i < reponse.size(); i++) {
+                System.out.println(reponse.get(i));
+            }
+        } catch (Exception e) {
+            System.err.println("Aucun résultat trouvé !");
         }
 
     }

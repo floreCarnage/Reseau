@@ -43,16 +43,9 @@ public class Requete {
     }
 
     private String executerListerSurnom(Donnees donnee) throws PersonneInvalideException {
-        Personne p = new Personne(parametre.get(0), parametre.get(1), parametre.get(2), parametre.get(3), parametre.get(4));  
-        if(!donnee.getDonnees().contains(p)) {
-            throw new PersonneInvalideException("Cette personne n'existe pas");
-        }
-        else {
-            int index = donnee.getDonnees().indexOf(p);
-            Gson gson = new Gson();
-            return gson.toJson(donnee.getDonnees().get(index).getSurnom(), List.class);
-        }
-        
+        int index = donnee.getDonnees().indexOf(donnee.getPersonne(parametre.get(0), parametre.get(1)));
+        Gson gson = new Gson();
+        return gson.toJson(donnee.getDonnees().get(index).getSurnom(), List.class);
     }
 
     private String executerAjouterNom(Donnees donnee) throws PersonneInvalideException {

@@ -32,19 +32,25 @@ public class ServeurThreads  extends ServeurTCP implements Runnable{
             while (true) {
                 Gson gson = new Gson();
                 String in = entree.readLine();
-                Requete r = gson.fromJson(in, Requete.class);
                 try {
-                    sortie.println(r.executer(getDonnees()));
+                    Requete r = gson.fromJson(in, Requete.class);
+                    try {
+                        sortie.println(r.executer(getDonnees()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    System.err.println("Requête incompréhensible !");
+                    sortie.println("Requête incompréhensible !");
                 }
-                /*if (in == null) {
-                    System.err.println("Le client "+adresse+" s'est déconnecté");
+
+
+                /*    System.err.println("Le client " + adresse + " s'est déconnecté");
                     sortie.close();
                     entree.close();
                     clientSocket.close();
-                    break; 
-                }*/
+                    break;
+                */
             }
             
         } catch (IOException exception) {
