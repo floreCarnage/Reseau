@@ -8,6 +8,7 @@ import java.util.List;
  */
 public class Donnees {
     List<Personne> donnees;
+    List<String> surnoms;
 
     public Donnees () {
         donnees = new ArrayList();
@@ -19,7 +20,7 @@ public class Donnees {
 
     public Personne getPersonne(String nom, String apogee) throws PersonneInvalideException {
         for (Personne p : donnees) {
-            if (p.getNom() == nom && p.getApogee() == apogee) {
+            if (p.getNom().equals(nom) && p.getApogee().equals(apogee)) {
                 return p;
             }
         }
