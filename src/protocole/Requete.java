@@ -1,10 +1,14 @@
 package protocole;
 
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import com.google.gson.Gson;
+
 import donnees.Donnees;
+import donnees.Personne;
+import donnees.PersonneInvalideException;
 
 
 public class Requete {
@@ -17,15 +21,53 @@ public class Requete {
         parametre = para;
     }
     
-    public void executer(Donnees donnee) {
+    public String executer(Donnees donnee) throws Exception {
         switch (nomRequete) {
         case AJOUTERNOM : 
-            executerAjouterNom(donnee);
+            try {
+                return executerAjouterNom(donnee);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            break;
+        case LISTERSURNOM :
+            try {
+                return executerListerSurnom(donnee);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        default:
+            throw new Exception();
         }
+        return null;
     }
 
-    private void executerAjouterNom(Donnees donnee) {
-        if(donnee.)
+    private String executerListerSurnom(Donnees donnee) throws PersonneInvalideException {
+        Personne p = new Personne(parametre.get(0), parametre.get(1), parametre.get(2), parametre.get(3), parametre.get(4));  
+        if(!donnee.getDonnees().contains(p)) {
+            throw new PersonneInvalideException("Cette personne n'existe pas");
+        }
+        else {
+            int index = donnee.getDonnees().indexOf(p);
+            Gson gson = new Gson();
+            return gson.toJson(donnee.getDonnees().get(index).getSurnom(), List.class);
+        }
+        
+    }
+
+    private String executerAjouterNom(Donnees donnee) throws PersonneInvalideException {
+        Personne p = new Personne(parametre.get(0), parametre.get(1), parametre.get(2), parametre.get(3), parametre.get(4));  
+        if(donnee.getDonnees().contains(p)) {
+            throw new PersonneInvalideException("Cette personne existe déjà");
+        }
+        else {
+            donnee.getDonnees().add(p);
+            String s = "Cette personne a bien été ajouté";
+            ArrayList<String> l = new ArrayList<>();
+            l.add(s);
+            Gson gson = new Gson();
+            return gson.toJson(l, List.class);
+        }
     }
     
 

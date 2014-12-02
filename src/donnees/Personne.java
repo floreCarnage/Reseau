@@ -4,6 +4,8 @@ import donnees.Dpt;
 
 import java.util.List;
 
+import com.google.gson.JsonElement;
+
 /**
  * Created by Garance on 18/11/2014.
  */
@@ -31,5 +33,9 @@ public class Personne {
 
     public String getApogee() {
         return apogee;
+    }
+
+    public List<String> getSurnom() {
+        return surnoms;
     }
 }
