@@ -68,6 +68,13 @@ public class ClientTCP {
                         r = new Requete(NomRequete.LISTERSURNOM, params);
                         requeteEnvoyee = gson.toJson(r);
                         break;
+                    case "3" :
+                        params = null;
+                        r = new Requete(NomRequete.DECONNEXION, params);
+                        requeteEnvoyee = gson.toJson(r);
+                        in.close();
+                        out.close();
+                        maSocket.close();
                 }
                 //Envoi effectif de la requête après sa construction :
                 out.println(requeteEnvoyee);

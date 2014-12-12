@@ -10,6 +10,7 @@ On a besoin :
     - le marshalling (le type de sérialisation)
     - le flux de lecture / écriture
 - Le langage de programmation - la version de Java
+Au final c'est le fichier portocole d'application s'il est suffisamment détaillé.
 
 
 
@@ -41,11 +42,6 @@ il est possible qu'il ne reçoive jamais de réponse, sans savoir si sa requête
 
 Pour notre serveur de surnom, l'utilisation de UDP n'est pas adaptée car ce n'est pas la rapidité de communication qui importe mais l'intrégrité des données.
 
-Les demandes des clients peuvent arriver dans n'importe quel ordre : cela signifie qu'on ne peut pas considérer un usager comme prioritaire,
-même si sa demande a été passée avant un autre. (POUR ça d'après ce que je trouve sur internet les deuc protocoles traitent les requêtes dans l'ordre où ils les reçoivent.
-http://sardes.inrialpes.fr/~krakowia/Enseignement/M1/Flips/6-Sock-RPC-RAR-M1.pdf)
-
-
 
 
 
@@ -54,10 +50,7 @@ en place des serveurs esclaves qui soient des copies de ce serveur. Pour simplif
 en mode multicast dans laquelle tous les serveurs esclaves sont des clients du serveur principal.
 Via cette communication le serveur principal informe régulièrement (délai de temps) les serveurs esclaves de son état.
 
-a. Quel est le protocole d'application que vous pourriez mettre en place pour cette partie ?
-
 Il faudrait rajouter une vérification supplémentaire, le client final devra attendre la confirmation que le serveur maitre est confirmé au serveur esclave qu'il a bien pris sa modification en compte. Cela rajouterai un temps de latence supplémentaire, mais ça protégerait de toute modification concurrente.
 
-b. Comment faire évoluer le code du client et du serveur afin de mixer le service de Surnoms et celui de “réplicats” ?
 
 

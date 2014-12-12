@@ -7,9 +7,11 @@ import java.io.PrintStream;
 import java.net.Inet4Address;
 import java.net.Socket;
 
+import com.google.gson.Gson;
+
 import protocole.Requete;
 
-import com.google.gson.Gson;
+//import com.google.gson.Gson;
 
 public class ServeurThreads  extends ServeurTCP implements Runnable{
 
@@ -29,13 +31,15 @@ public class ServeurThreads  extends ServeurTCP implements Runnable{
             BufferedReader entree = new BufferedReader(
                     new InputStreamReader(clientSocket.getInputStream()));
             System.err.println("Le client "+adresse+" s'est connecté");
-            while (true) {
+            String s="";
+            //while ( !s.equals("deconnexion")) {
                 Gson gson = new Gson();
                 String in = entree.readLine();
                 try {
                     Requete r = gson.fromJson(in, Requete.class);
                     try {
-                        sortie.println(r.executer(getDonnees()));
+                        s = r.executer(getDonnees());
+                        sortie.println(s);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -51,7 +55,10 @@ public class ServeurThreads  extends ServeurTCP implements Runnable{
                     clientSocket.close();
                     break;
                 */
-            }
+            //}
+            sortie.close();
+            entree.close();
+            clientSocket.close();
             
         } catch (IOException exception) {
             System.out.println("Erreur: " + exception);

@@ -36,10 +36,20 @@ public class Requete {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        case DECONNEXION :
+            try {
+                return deconnexion();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         default:
             throw new Exception();
         }
         return null;
+    }
+
+    private String deconnexion() {
+        return "deconnexion";
     }
 
     private String executerListerSurnom(Donnees donnee) throws PersonneInvalideException {

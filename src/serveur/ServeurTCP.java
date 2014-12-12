@@ -5,6 +5,7 @@ import java.net.*;
 import java.util.Date;
 
 import donnees.Donnees;
+import com.google.gson.Gson;
 
 /**
  * La classe serveur.ServeurTCP, qui implémente le code du serveur TCP. La sérialisation
@@ -28,9 +29,11 @@ public class ServeurTCP {
             donnee = new Donnees();
             maSocket = new ServerSocket(4444);
             System.out.println("Le serveur est allume : " + new Date());
+            System.out.println("je sui2");
             while (true) {
                 // On attend une demande de connexion d'un client
                 Socket clientSocket = maSocket.accept();
+                System.out.println("je suis dans le while");
                 ServeurThreads servThread = new ServeurThreads(clientSocket);
                 new Thread(servThread).start();
             }

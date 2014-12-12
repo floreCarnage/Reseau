@@ -1,5 +1,5 @@
 package protocole;
 
 public enum NomRequete {
-    AJOUTERNOM, LISTERSURNOM;
+    AJOUTERNOM, LISTERSURNOM, DECONNEXION;
 }
