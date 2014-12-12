@@ -19,8 +19,11 @@ public class ServeurThreads  extends ServeurTCP implements Runnable{
     private Inet4Address adresse;
     
     public ServeurThreads(Socket socket) {
+    System.out.println("Je suis dans le constructeur de thread");
         clientSocket = socket;
+        System.out.println("J'ai attribué la socket");
         adresse = (Inet4Address) socket.getInetAddress();
+        System.out.println("J4ai attribué l'adresse");
     }
     
     @Override

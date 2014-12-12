@@ -1,0 +1,18 @@
+*.class
+target/*
+*/*.*~
+*/*.class
+*/*.jar
+.idea/*
+*.iml
+/target
+*~
+.classpath
+.settings
+.project
+*.class
+*.jar
+
+#IntelliJ files
+.idea/*
+*.iml

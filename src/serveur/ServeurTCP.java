@@ -32,10 +32,15 @@ public class ServeurTCP {
             System.out.println("je sui2");
             while (true) {
                 // On attend une demande de connexion d'un client
+                System.out.println("Je vais accepter une socket");
                 Socket clientSocket = maSocket.accept();
+                System.out.println("Je vais accepter une socket");
                 System.out.println("je suis dans le while");
+                System.out.println("Je crée une thread");
                 ServeurThreads servThread = new ServeurThreads(clientSocket);
+                System.out.println("J'ai créé une thread, je la start");
                 new Thread(servThread).start();
+                System.out.println("méthode start du serveur fini");
             }
         } catch (IOException exception) {
             System.out.println("Erreur: " + exception);
